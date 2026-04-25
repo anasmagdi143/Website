@@ -197,10 +197,11 @@
 
     .hero-location {
       font-family: var(--font-body);
-      font-size: 15px;
+      font-size: 20px;
       color: var(--white);
       letter-spacing: 3px;
       text-align: right;
+      padding-right: 30px;
       opacity: 0;
       animation: fadeUp 0.6s ease 2.8s forwards;
     }
@@ -217,7 +218,6 @@
       }
     }
 
-    /* Wrapper handles position + fade animation */
     .hero-character-wrap {
       position: absolute;
       bottom: 0;
@@ -229,7 +229,6 @@
       animation: fadeUp 1s ease 2s forwards;
     }
 
-    /* Image handles hover scale independently */
     .hero-character {
       width: 100%;
       display: block;
@@ -317,6 +316,26 @@
       display: block;
       image-rendering: pixelated;
       filter: grayscale(20%);
+    }
+
+    /* CV button */
+    .cv-btn {
+      display: block;
+      margin-top: 16px;
+      font-family: var(--font-silk);
+      font-size: 24px;
+      color: var(--copper);
+      border: 1px solid var(--copper);
+      padding: 14px 0;
+      text-align: center;
+      letter-spacing: 4px;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+
+    .cv-btn:hover {
+      background: var(--copper);
+      color: var(--bg);
     }
 
     /* ═══ WORKS ═══ */
@@ -561,13 +580,13 @@
       <p class="about-label">// ABOUT ME</p>
       <h2 class="about-heading">Building worlds<br />beyond the screen.</h2>
       <p class="about-body">
-        Hi, I’m Anas! I'm originally from Cairo and currently a second-year Interactive Media and Immersive Technology
+        Hi, I'm Anas! I'm originally from Cairo and currently a second-year Interactive Media and Immersive Technology
         student at Asia Pacific University (APU). I absolutely love building VR and AR experiences that bring new worlds
-        to life. When I’m not diving into the XR space, you can usually find me making games just for fun and to keep my
+        to life. When I'm not diving into the XR space, you can usually find me making games just for fun and to keep my
         creative gears turning.
       </p>
       <p class="about-body">
-        On the technical side, my go-to engine is Unity. Right now, I’m really focused on leveling up my C# programming
+        On the technical side, my go-to engine is Unity. Right now, I'm really focused on leveling up my C# programming
         and getting hands-on with different XR toolkits to build smoother interactions. Ultimately, I just love
         tinkering with technology and am always eager to learn, experiment, and jump into whatever new opportunities
         come my way.
@@ -582,8 +601,9 @@
     </div>
 
     <div class="about-image-box reveal">
-      <!-- ✅ About photo: meta-quest.png (same folder as index.html) -->
       <img class="about-photo" src="meta-quest.png" alt="Anas — Meta Quest photo" />
+      <!-- ✅ CV file: rename your CV image to cv.png and place it in the same folder -->
+      <a class="cv-btn" href="cv.PDF" target="_blank">[ CV ]</a>
     </div>
   </section>
 
