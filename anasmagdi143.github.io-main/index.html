@@ -71,6 +71,16 @@
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='4' height='4' fill='%2300E5C8'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%2300E5C8'/%3E%3Crect x='8' y='8' width='4' height='4' fill='%2300E5C8'/%3E%3Crect x='12' y='12' width='4' height='4' fill='%2300E5C8'/%3E%3C/svg%3E") 0 0, crosshair;
     }
 
+    /* Particle canvas */
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     /* CRT scanline overlay — covers entire page */
     body::after {
       content: '';
@@ -139,7 +149,7 @@
       gap: 0;
       list-style: none;
       font-family: var(--font-silk);
-      font-size: 11px;
+      font-size: 15px;
       letter-spacing: 2px;
     }
 
@@ -166,31 +176,35 @@
       min-height: 100vh;
       padding: 0;
       max-width: 100%;
-      display: grid;
-      grid-template-rows: 1fr;
       position: relative;
       overflow: hidden;
     }
 
+    /* Text block sits vertically centered, slightly above mid */
     .hero-inner {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 120px 48px 60px;
-      position: relative;
+      position: absolute;
+      top: 28%;
+      transform: translateY(-50%);
+      width: 100%;
+      padding: 0 40px 0 80px;
+      box-sizing: border-box;
+      z-index: 1;
     }
 
+    /* "My name is Anas , and I am a..."
+       Indented to sit above "DEVELOPER" — matches reference */
     .hero-subtitle {
       font-family: var(--font-vt);
-      font-size: 28px;
+      font-size: 32px;
       color: var(--cyan);
       letter-spacing: 3px;
-      margin-bottom: 12px;
-      /* typewriter animation */
+      margin-top: -30px;
+      margin-bottom: 6px;
+      padding-left: 33%;
       overflow: hidden;
       white-space: nowrap;
       width: 0;
-      animation: typewriter 1.8s steps(28, end) 0.5s forwards;
+      animation: typewriter 1.8s steps(30, end) 0.5s forwards;
     }
 
     @keyframes typewriter {
@@ -199,26 +213,31 @@
       }
 
       to {
-        width: 28ch;
+        width: 100%;
       }
     }
 
+    /* "VR  DEVELOPER" — full width, edge to edge, wide spacing */
     .hero-title {
       font-family: var(--font-pixel);
-      font-size: clamp(28px, 6vw, 72px);
+      font-size: clamp(32px, 6.8vw, 86px);
       color: var(--copper);
-      letter-spacing: 0.15em;
-      line-height: 1.2;
-      margin-bottom: 20px;
+      letter-spacing: 0.38em;
+      line-height: 1;
+      margin-bottom: 18px;
+      white-space: nowrap;
+      width: 100%;
       opacity: 0;
       animation: fadeUp 0.8s ease 2.2s forwards;
     }
 
+    /* "Based in KL , Malaysia" — right-aligned, matches reference */
     .hero-location {
       font-family: var(--font-body);
       font-size: 15px;
       color: var(--white);
-      letter-spacing: 2px;
+      letter-spacing: 3px;
+      text-align: right;
       opacity: 0;
       animation: fadeUp 0.6s ease 2.8s forwards;
     }
@@ -235,19 +254,15 @@
       }
     }
 
-    /* ─── CHARACTER IMAGE ──────────────────────
-       Place your pixel character PNG here.
-       Recommended: transparent background PNG,
-       roughly 500–600px wide.
-       File: assets/character.png
-    ────────────────────────────────────────── */
+    /* Character — anchored to bottom-left area */
     .hero-character {
       position: absolute;
       bottom: 0;
-      right: 10%;
-      width: clamp(280px, 35vw, 520px);
+      left: 35%;
+      transform: translateX(-50%);
+      width: clamp(320px, 42vw, 560px);
       image-rendering: pixelated;
-      /* keeps pixel art crisp */
+      z-index: 2;
       opacity: 0;
       animation: fadeUp 1s ease 2s forwards;
     }
@@ -545,12 +560,17 @@
       }
 
       .hero-inner {
-        padding: 100px 24px 300px;
+        padding: 0 20px;
+        top: 42%;
+      }
+
+      .hero-subtitle {
+        padding-left: 0;
+        font-size: 20px;
       }
 
       .hero-character {
-        right: 0;
-        width: 75vw;
+        width: 78vw;
       }
 
       #about {
@@ -586,7 +606,7 @@
   <section id="hero">
     <div class="hero-inner">
       <p class="hero-subtitle">My name is Anas , and I am a...</p>
-      <h1 class="hero-title">VR&nbsp;&nbsp;DEVELOPER</h1>
+      <h1 class="hero-title">VR&nbsp;<span style="letter-spacing: 0.6em;">DEVELOPER</span></h1>
       <p class="hero-location">Based in KL , Malaysia</p>
     </div>
 
@@ -606,7 +626,7 @@
     ║  3. The <img> tag below links to it          ║
     ╚══════════════════════════════════════════════╝
     -->
-    <img class="hero-character" src="pixel-art.png" alt="Anas — pixel art character" />
+    <img class="hero-character" src="pexel-art.png" alt="Anas — pixel art character" />
   </section>
 
   <div class="pixel-divider"></div>
@@ -751,6 +771,81 @@
     &copy; 2026 ANAS — BUILT WITH ♥ &amp; PIXELS
   </footer>
 
+
+  <!-- ═══════════════════════════════════════
+       PARTICLE BACKGROUND
+  ════════════════════════════════════════ -->
+  <canvas id="particle-canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+
+    const COLORS = ['#00E5C8', '#A259FF', '#C8A97A', '#00E5C8', '#00E5C8'];
+    const PARTICLE_COUNT = 80;
+
+    let particles = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function randomBetween(a, b) {
+      return a + Math.random() * (b - a);
+    }
+
+    function createParticle() {
+      return {
+        x: randomBetween(0, canvas.width),
+        y: randomBetween(0, canvas.height),
+        size: Math.random() < 0.5 ? 1 : 2,   /* pixel-art: only 1px or 2px squares */
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        vx: randomBetween(-0.25, 0.25),
+        vy: randomBetween(-0.4, -0.1),        /* mostly drift upward */
+        alpha: randomBetween(0.1, 0.7),
+        alphaDir: Math.random() < 0.5 ? 0.004 : -0.004,
+        alphaMin: 0.05,
+        alphaMax: randomBetween(0.4, 0.8),
+      };
+    }
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(createParticle());
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        /* move */
+        p.x += p.vx;
+        p.y += p.vy;
+
+        /* fade pulse */
+        p.alpha += p.alphaDir;
+        if (p.alpha >= p.alphaMax) p.alphaDir = -Math.abs(p.alphaDir);
+        if (p.alpha <= p.alphaMin) p.alphaDir =  Math.abs(p.alphaDir);
+
+        /* reset when off screen */
+        if (p.y < -4 || p.x < -4 || p.x > canvas.width + 4) {
+          particles[i] = createParticle();
+          particles[i].y = canvas.height + 4;
+        }
+
+        /* draw as pixel square */
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+      });
+
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(tick);
+    }
+    tick();
+  </script>
 
   <!-- ═══════════════════════════════════════
        SCROLL REVEAL SCRIPT
