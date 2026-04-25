@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANAS — VR Developer</title>
+
+  <!-- ═══════════════════════════════════════════
+       PIXEL ART RETRO FONT STACK
+       All free on Google Fonts
+  ══════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Silkscreen:wght@400;700&family=Courier+Prime:wght@400;700&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════
+       COLOR SYSTEM
+    ═══════════════════════════════════ */
+    :root {
+      --bg: #0D0D0D;
+      --copper: #C8A97A;
+      /* hero title, logo accent */
+      --cyan: #00E5C8;
+      /* subheadline, highlights */
+      --purple: #A259FF;
+      /* nav, tags, accents */
+      --red: #FF4757;
+      /* hover sparks, buttons */
+      --white: #E8E8D0;
+      /* body text, secondary text */
+      --dim: #444440;
+      /* muted borders, dividers */
+
+      --font-pixel: 'Press Start 2P', monospace;
+      /* H1 titles */
+      --font-vt: 'VT323', monospace;
+      /* large subheads */
+      --font-silk: 'Silkscreen', monospace;
+      /* nav, labels, tags */
+      --font-body: 'Courier Prime', monospace;
+      /* paragraphs */
+    }
+
+    /* ═══════════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════════ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      /* Custom pixel cursor */
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='4' height='4' fill='%2300E5C8'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%2300E5C8'/%3E%3Crect x='8' y='8' width='4' height='4' fill='%2300E5C8'/%3E%3Crect x='12' y='12' width='4' height='4' fill='%2300E5C8'/%3E%3C/svg%3E") 0 0, crosshair;
+    }
+
+    /* CRT scanline overlay — covers entire page */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(to bottom,
+          transparent 0px,
+          transparent 2px,
+          rgba(0, 0, 0, 0.08) 2px,
+          rgba(0, 0, 0, 0.08) 4px);
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    section {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════
+       PIXEL DIVIDER UTILITY
+    ═══════════════════════════════════ */
+    .pixel-divider {
+      width: 100%;
+      height: 4px;
+      background: repeating-linear-gradient(to right,
+          var(--dim) 0px, var(--dim) 8px,
+          transparent 8px, transparent 16px);
+      margin: 0;
+    }
+
+    /* ═══════════════════════════════════
+       NAV
+    ═══════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(13, 13, 13, 0.92);
+      backdrop-filter: blur(4px);
+      border-bottom: 1px solid var(--dim);
+    }
+
+    .nav-logo {
+      font-family: var(--font-silk);
+      font-size: 18px;
+      color: var(--white);
+      letter-spacing: 4px;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0;
+      list-style: none;
+      font-family: var(--font-silk);
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+
+    .nav-links li a {
+      color: var(--purple);
+      padding: 6px 12px;
+      transition: color 0.15s;
+    }
+
+    .nav-links li a:hover {
+      color: var(--cyan);
+    }
+
+    .nav-links li:not(:last-child) a::after {
+      content: ' -';
+      color: var(--purple);
+      opacity: 0.5;
+    }
+
+    /* ═══════════════════════════════════
+       HERO SECTION
+    ═══════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      padding: 0;
+      max-width: 100%;
+      display: grid;
+      grid-template-rows: 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 48px 60px;
+      position: relative;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-vt);
+      font-size: 28px;
+      color: var(--cyan);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+      /* typewriter animation */
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      animation: typewriter 1.8s steps(28, end) 0.5s forwards;
+    }
+
+    @keyframes typewriter {
+      from {
+        width: 0;
+      }
+
+      to {
+        width: 28ch;
+      }
+    }
+
+    .hero-title {
+      font-family: var(--font-pixel);
+      font-size: clamp(28px, 6vw, 72px);
+      color: var(--copper);
+      letter-spacing: 0.15em;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 2.2s forwards;
+    }
+
+    .hero-location {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--white);
+      letter-spacing: 2px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 2.8s forwards;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ─── CHARACTER IMAGE ──────────────────────
+       Place your pixel character PNG here.
+       Recommended: transparent background PNG,
+       roughly 500–600px wide.
+       File: assets/character.png
+    ────────────────────────────────────────── */
+    .hero-character {
+      position: absolute;
+      bottom: 0;
+      right: 10%;
+      width: clamp(280px, 35vw, 520px);
+      image-rendering: pixelated;
+      /* keeps pixel art crisp */
+      opacity: 0;
+      animation: fadeUp 1s ease 2s forwards;
+    }
+
+    /* ═══════════════════════════════════
+       ABOUT SECTION
+    ═══════════════════════════════════ */
+    #about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-label {
+      font-family: var(--font-silk);
+      font-size: 10px;
+      color: var(--purple);
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+    }
+
+    .about-heading {
+      font-family: var(--font-pixel);
+      font-size: clamp(14px, 2vw, 22px);
+      color: var(--copper);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .about-body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--white);
+      line-height: 1.9;
+      opacity: 0.85;
+      margin-bottom: 16px;
+    }
+
+    /* Pixel skill tags */
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .tag {
+      font-family: var(--font-silk);
+      font-size: 9px;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      padding: 6px 14px;
+      letter-spacing: 1px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .tag:hover {
+      background: var(--cyan);
+      color: var(--bg);
+    }
+
+    /* ─── ABOUT PHOTO ──────────────────────────
+       A square or portrait photo of yourself.
+       Recommended: 480x480px or 480x600px.
+       Use the pixel art version if you have one,
+       or a regular photo — both work great here.
+       File: assets/about-photo.png
+    ────────────────────────────────────────── */
+    .about-image-box {
+      position: relative;
+    }
+
+    .about-image-box::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border: 2px dashed var(--copper);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .about-photo {
+      width: 100%;
+      display: block;
+      image-rendering: pixelated;
+      filter: grayscale(20%);
+    }
+
+    /* ═══════════════════════════════════
+       WORKS SECTION  (placeholder)
+    ═══════════════════════════════════ */
+    #works {
+      text-align: center;
+    }
+
+    .section-label {
+      font-family: var(--font-silk);
+      font-size: 10px;
+      color: var(--purple);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    .section-heading {
+      font-family: var(--font-pixel);
+      font-size: clamp(16px, 2.5vw, 26px);
+      color: var(--copper);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    .section-sub {
+      font-family: var(--font-vt);
+      font-size: 22px;
+      color: var(--white);
+      opacity: 0.6;
+      margin-bottom: 60px;
+      letter-spacing: 2px;
+    }
+
+    /* Works placeholder grid — swap with real cards later */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    /* ─── PROJECT THUMBNAIL ────────────────────
+       Each card needs a project screenshot or
+       cover image. Recommended: 560x340px.
+       Files:
+         assets/project-1.png
+         assets/project-2.png
+         assets/project-3.png
+    ────────────────────────────────────────── */
+    .work-card {
+      background: #111;
+      border: 1px solid var(--dim);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+      text-align: left;
+    }
+
+    .work-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-4px);
+    }
+
+    .work-thumb {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+      image-rendering: pixelated;
+      filter: grayscale(30%);
+      transition: filter 0.3s;
+    }
+
+    .work-card:hover .work-thumb {
+      filter: grayscale(0%);
+    }
+
+    /* Placeholder shown until you add real images */
+    .work-thumb-placeholder {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: #1A1A1A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-silk);
+      font-size: 9px;
+      color: var(--dim);
+      letter-spacing: 2px;
+      border-bottom: 1px solid var(--dim);
+    }
+
+    .work-info {
+      padding: 16px 20px 20px;
+    }
+
+    .work-tag {
+      font-family: var(--font-silk);
+      font-size: 8px;
+      color: var(--purple);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .work-title {
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      color: var(--copper);
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+
+    .work-desc {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--white);
+      opacity: 0.7;
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════
+       CONTACT SECTION
+    ═══════════════════════════════════ */
+    #contact {
+      text-align: center;
+    }
+
+    .contact-email {
+      font-family: var(--font-vt);
+      font-size: 42px;
+      color: var(--cyan);
+      letter-spacing: 4px;
+      display: inline-block;
+      border-bottom: 2px solid var(--cyan);
+      padding-bottom: 4px;
+      margin: 32px 0 48px;
+      transition: color 0.2s;
+    }
+
+    .contact-email:hover {
+      color: var(--copper);
+      border-color: var(--copper);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      font-family: var(--font-silk);
+      font-size: 10px;
+      color: var(--white);
+      border: 1px solid var(--dim);
+      padding: 12px 24px;
+      letter-spacing: 2px;
+      transition: border-color 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+
+    .social-btn:hover {
+      border-color: var(--purple);
+      color: var(--purple);
+    }
+
+    /* ═══════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════ */
+    footer {
+      text-align: center;
+      padding: 32px;
+      font-family: var(--font-silk);
+      font-size: 8px;
+      color: var(--dim);
+      letter-spacing: 2px;
+      border-top: 1px solid var(--dim);
+    }
+
+    /* ═══════════════════════════════════
+       SCROLL REVEAL UTILITY
+    ═══════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════ */
+    @media (max-width: 768px) {
+      nav {
+        padding: 16px 20px;
+      }
+
+      .nav-links {
+        font-size: 8px;
+        gap: 0;
+      }
+
+      .hero-inner {
+        padding: 100px 24px 300px;
+      }
+
+      .hero-character {
+        right: 0;
+        width: 75vw;
+      }
+
+      #about {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      section {
+        padding: 72px 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAV
+  ════════════════════════════════════════ -->
+  <nav>
+    <span class="nav-logo">ANAS</span>
+    <ul class="nav-links">
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#works">WORKS</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-inner">
+      <p class="hero-subtitle">My name is Anas , and I am a...</p>
+      <h1 class="hero-title">VR&nbsp;&nbsp;DEVELOPER</h1>
+      <p class="hero-location">Based in KL , Malaysia</p>
+    </div>
+
+    <!--
+    ╔══════════════════════════════════════════════╗
+    ║  IMAGE NEEDED: Your pixel art character      ║
+    ║  ─────────────────────────────────────────   ║
+    ║  File to create: assets/character.png        ║
+    ║  Size: ~500px wide, transparent background   ║
+    ║  It's the pixel art of you with the VR       ║
+    ║  headset — same one from your mockup.        ║
+    ║                                              ║
+    ║  How to add it:                              ║
+    ║  1. Create a folder called "assets" next     ║
+    ║     to your index.html in the repo           ║
+    ║  2. Upload your PNG into that folder         ║
+    ║  3. The <img> tag below links to it          ║
+    ╚══════════════════════════════════════════════╝
+    -->
+    <img class="hero-character" src="pixel-art.png" alt="Anas — pixel art character" />
+  </section>
+
+  <div class="pixel-divider"></div>
+
+
+  <!-- ═══════════════════════════════════════
+       ABOUT
+  ════════════════════════════════════════ -->
+  <section id="about">
+
+    <div class="about-content reveal">
+      <p class="about-label">// ABOUT ME</p>
+      <h2 class="about-heading">Building worlds<br />beyond the screen.</h2>
+      <p class="about-body">
+        I'm Anas — a VR/XR developer and instructional designer based in
+        Kuala Lumpur. I build immersive learning experiences where education
+        meets game mechanics, hand tracking, and spatial computing.
+      </p>
+      <p class="about-body">
+        When I'm not building XR worlds in Unity, I'm designing training
+        programs that help people grow across the GCC and MENA region.
+      </p>
+      <div class="skill-tags">
+        <span class="tag">UNITY</span>
+        <span class="tag">VR / XR</span>
+        <span class="tag">C#</span>
+        <span class="tag">REACT</span>
+        <span class="tag">INSTRUCTIONAL DESIGN</span>
+        <span class="tag">META QUEST</span>
+      </div>
+    </div>
+
+    <div class="about-image-box reveal">
+      <!--
+      ╔══════════════════════════════════════════════╗
+      ║  IMAGE NEEDED: Your about photo              ║
+      ║  ─────────────────────────────────────────   ║
+      ║  File to create: assets/about-photo.png      ║
+      ║  Size: 480×600px works well (portrait)       ║
+      ║  Can be your pixel art version OR a real     ║
+      ║  photo — both look great with the filter.    ║
+      ║                                              ║
+      ║  How to add it:                              ║
+      ║  1. Put the file in the assets/ folder       ║
+      ║  2. The <img> below already points to it     ║
+      ╚══════════════════════════════════════════════╝
+      -->
+      <img class="about-photo" src="assets/about-photo.png" alt="Anas — about photo" />
+    </div>
+
+  </section>
+
+  <div class="pixel-divider"></div>
+
+
+  <!-- ═══════════════════════════════════════
+       WORKS  (we'll design these cards later)
+  ════════════════════════════════════════ -->
+  <section id="works">
+    <p class="section-label reveal">// SELECTED WORKS</p>
+    <h2 class="section-heading reveal">Things I've built</h2>
+    <p class="section-sub reveal">— more details coming soon —</p>
+
+    <div class="works-grid">
+
+      <!-- PROJECT CARD 1 -->
+      <div class="work-card reveal">
+        <!--
+        ╔══════════════════════════════════════════╗
+        ║  IMAGE NEEDED: Project 1 screenshot      ║
+        ║  File: assets/project-1.png              ║
+        ║  Size: 560×340px (16:10 ratio)           ║
+        ║  Swap the placeholder div with:          ║
+        ║  <img class="work-thumb"                 ║
+        ║       src="assets/project-1.png"         ║
+        ║       alt="Project name" />              ║
+        ╚══════════════════════════════════════════╝
+        -->
+        <div class="work-thumb-placeholder">[ PROJECT SCREENSHOT ]</div>
+        <div class="work-info">
+          <span class="work-tag">UNITY · VR</span>
+          <p class="work-title">Project Title One</p>
+          <p class="work-desc">Short description of what this project does and what problem it solves.</p>
+        </div>
+      </div>
+
+      <!-- PROJECT CARD 2 -->
+      <div class="work-card reveal">
+        <div class="work-thumb-placeholder">[ PROJECT SCREENSHOT ]</div>
+        <div class="work-info">
+          <span class="work-tag">REACT · WEB</span>
+          <p class="work-title">Project Title Two</p>
+          <p class="work-desc">Short description of what this project does and what problem it solves.</p>
+        </div>
+      </div>
+
+      <!-- PROJECT CARD 3 -->
+      <div class="work-card reveal">
+        <div class="work-thumb-placeholder">[ PROJECT SCREENSHOT ]</div>
+        <div class="work-info">
+          <span class="work-tag">XR · TRAINING</span>
+          <p class="work-title">Project Title Three</p>
+          <p class="work-desc">Short description of what this project does and what problem it solves.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="pixel-divider"></div>
+
+
+  <!-- ═══════════════════════════════════════
+       CONTACT
+  ════════════════════════════════════════ -->
+  <section id="contact">
+    <p class="section-label reveal">// GET IN TOUCH</p>
+    <h2 class="section-heading reveal">Let's build something.</h2>
+
+    <!--
+      Replace the href below with your actual email address.
+      Example: href="mailto:anas@yourdomain.com"
+    -->
+    <a class="contact-email reveal" href="mailto:your@email.com">
+      your@email.com
+    </a>
+
+    <div class="social-links reveal">
+      <!-- Replace # with your actual profile URLs -->
+      <a class="social-btn" href="#" target="_blank">GITHUB</a>
+      <a class="social-btn" href="#" target="_blank">LINKEDIN</a>
+      <a class="social-btn" href="#" target="_blank">TWITTER / X</a>
+      <a class="social-btn" href="#" target="_blank">ITCH.IO</a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer>
+    &copy; 2026 ANAS — BUILT WITH ♥ &amp; PIXELS
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════
+       SCROLL REVEAL SCRIPT
+  ════════════════════════════════════════ -->
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e, i) => {
+          if (e.isIntersecting) {
+            // stagger each element slightly
+            setTimeout(() => e.target.classList.add('visible'), i * 80);
+            observer.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+
+</html>
