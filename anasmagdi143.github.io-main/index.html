@@ -100,18 +100,23 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
+      padding: 32px 80px;
       background: rgba(13, 13, 13, 0.92);
       backdrop-filter: blur(4px);
       border-bottom: 1px solid var(--dim);
     }
 
     .nav-logo {
-      font-family: var(--font-silk);
-      font-size: 18px;
-      color: var(--white);
-      letter-spacing: 4px;
-      font-weight: 700;
+      height: 56px;
+      width: auto;
+      display: block;
+      image-rendering: pixelated;
+      filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.5));
+      transition: transform 0.2s;
+    }
+
+    .nav-logo:hover {
+      transform: scale(1.05);
     }
 
     .nav-links {
@@ -119,24 +124,100 @@
       gap: 0;
       list-style: none;
       font-family: var(--font-silk);
-      font-size: 15px;
-      letter-spacing: 2px;
+      font-size: 24px;
+      letter-spacing: 3px;
     }
 
     .nav-links li a {
       color: var(--purple);
       padding: 6px 12px;
-      transition: color 0.15s;
+      display: inline-block;
+      transition: color 0.15s, transform 0.15s;
     }
 
     .nav-links li a:hover {
       color: var(--cyan);
+      transform: scale(1.1);
     }
 
-    .nav-links li:not(:last-child) a::after {
-      content: ' -';
-      color: var(--purple);
-      opacity: 0.5;
+    .nav-links li {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links li:not(:last-child)::after {
+      content: '';
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin: 0 8px;
+      background-image: url('star.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      image-rendering: pixelated;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(13, 13, 13, 0.95);
+      border: 1px solid var(--dim);
+      padding: 8px 0;
+      list-style: none;
+      min-width: 140px;
+      text-align: center;
+      z-index: 101;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      flex-direction: column;
+      gap: 0;
+      margin-top: 12px;
+    }
+
+    .dropdown-content.show {
+      display: flex;
+      animation: fadeUpDropdown 0.2s ease forwards;
+    }
+
+    @keyframes fadeUpDropdown {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+
+    .dropdown-content li {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .dropdown-content li::after {
+      display: none !important;
+    }
+
+    .dropdown-content li a {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 16px;
+      color: var(--white);
+    }
+
+    .dropdown-content li a:hover {
+      background: var(--dim);
+      color: var(--cyan);
+      transform: scale(1.05);
     }
 
     /* ═══ HERO ═══ */
@@ -150,7 +231,7 @@
 
     .hero-inner {
       position: absolute;
-      top: 28%;
+      top: 33%;
       transform: translateY(-50%);
       width: 100%;
       padding: 0 40px 0 80px;
@@ -163,8 +244,9 @@
       font-size: 32px;
       color: var(--cyan);
       letter-spacing: 3px;
-      margin-top: -30px;
-      margin-bottom: 6px;
+      position: absolute;
+      top: -80px;
+      left: 0;
       padding-left: 33%;
       overflow: hidden;
       white-space: nowrap;
@@ -223,7 +305,7 @@
       bottom: 0;
       left: 35%;
       transform: translateX(-50%);
-      width: clamp(320px, 42vw, 560px);
+      width: clamp(370px, 48vw, 630px);
       z-index: 2;
       opacity: 0;
       animation: fadeUp 1s ease 2s forwards;
@@ -237,7 +319,7 @@
     }
 
     .hero-character:hover {
-      transform: scale(1.06);
+      transform: scale(1.10);
     }
 
     /* ═══ ABOUT ═══ */
@@ -248,18 +330,9 @@
       align-items: center;
     }
 
-    .about-label {
-      font-family: var(--font-silk);
-      font-size: 10px;
-      color: var(--purple);
-      letter-spacing: 3px;
-      margin-bottom: 16px;
-      font-weight: bold;
-    }
-
     .about-heading {
       font-family: var(--font-pixel);
-      font-size: clamp(14px, 2vw, 22px);
+      font-size: clamp(20px, 3vw, 36px);
       color: var(--copper);
       line-height: 1.8;
       margin-bottom: 24px;
@@ -318,7 +391,6 @@
       filter: grayscale(20%);
     }
 
-    /* CV button */
     .cv-btn {
       display: block;
       margin-top: 16px;
@@ -338,22 +410,49 @@
       color: var(--bg);
     }
 
+    .cv-hint {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+    }
+
+    .cv-hint-arrow {
+      font-size: 14px;
+      color: var(--copper);
+      opacity: 0.7;
+      animation: bounceUp 1.2s ease-in-out infinite;
+    }
+
+    .cv-hint-text {
+      font-family: var(--font-vt);
+      font-size: 26px;
+      color: var(--copper);
+      opacity: 0.6;
+      letter-spacing: 2px;
+    }
+
+    @keyframes bounceUp {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
     /* ═══ WORKS ═══ */
     #works {
       text-align: center;
     }
 
-    .section-label {
-      font-family: var(--font-silk);
-      font-size: 10px;
-      color: var(--purple);
-      letter-spacing: 3px;
-      margin-bottom: 12px;
-    }
-
     .section-heading {
       font-family: var(--font-pixel);
-      font-size: clamp(16px, 2.5vw, 26px);
+      font-size: clamp(24px, 4vw, 42px);
       color: var(--copper);
       margin-bottom: 16px;
       line-height: 1.7;
@@ -361,89 +460,155 @@
 
     .section-sub {
       font-family: var(--font-vt);
-      font-size: 22px;
+      font-size: 32px;
       color: var(--white);
       opacity: 0.6;
       margin-bottom: 60px;
       letter-spacing: 2px;
     }
 
-    .works-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .work-card {
-      background: #111;
-      border: 1px solid var(--dim);
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s;
-      text-align: left;
-    }
-
-    .work-card:hover {
-      border-color: var(--cyan);
-      transform: translateY(-4px);
-    }
-
-    .work-thumb {
-      width: 100%;
-      aspect-ratio: 16/10;
-      object-fit: cover;
-      display: block;
-      image-rendering: pixelated;
-      filter: grayscale(30%);
-      transition: filter 0.3s;
-    }
-
-    .work-card:hover .work-thumb {
-      filter: grayscale(0%);
-    }
-
-    .work-thumb-placeholder {
-      width: 100%;
-      aspect-ratio: 16/10;
-      background: #1A1A1A;
+    .works-categories {
       display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 400px;
+      margin-top: 80px;
+      margin-bottom: 100px;
+      width: 100%;
+    }
+
+    .category-btn {
+      display: inline-flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       font-family: var(--font-silk);
-      font-size: 9px;
-      color: var(--dim);
-      letter-spacing: 2px;
-      border-bottom: 1px solid var(--dim);
+      font-size: 40px;
+      color: var(--cyan);
+      border: 3px solid var(--cyan);
+      padding: 20px 72px;
+      letter-spacing: 8px;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      cursor: pointer;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      gap: 14px;
     }
 
-    .work-info {
-      padding: 16px 20px 20px;
+    .category-btn:hover {
+      background: var(--cyan);
+      color: var(--bg);
+      transform: scale(1.05);
     }
 
-    .work-tag {
-      font-family: var(--font-silk);
-      font-size: 8px;
-      color: var(--purple);
-      letter-spacing: 2px;
-      margin-bottom: 8px;
+    /* Shared pixel controller styles for ::before and ::after */
+    .games-btn::before,
+    .games-btn::after {
+      content: '';
       display: block;
+      width: 4px;
+      height: 4px;
+      position: relative;
+      left: -12px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      box-shadow:
+        4px 0px 0 0 #A259FF,
+        8px 0px 0 0 #A259FF,
+        12px 0px 0 0 #A259FF,
+        16px 0px 0 0 #A259FF,
+        20px 0px 0 0 #A259FF,
+        0px 4px 0 0 #A259FF,
+        4px 4px 0 0 #A259FF,
+        8px 4px 0 0 #A259FF,
+        12px 4px 0 0 #A259FF,
+        16px 4px 0 0 #A259FF,
+        20px 4px 0 0 #A259FF,
+        24px 4px 0 0 #A259FF,
+        0px 8px 0 0 #A259FF,
+        4px 8px 0 0 #A259FF,
+        8px 8px 0 0 #A259FF,
+        12px 8px 0 0 #A259FF,
+        16px 8px 0 0 #A259FF,
+        20px 8px 0 0 #A259FF,
+        24px 8px 0 0 #A259FF,
+        0px 12px 0 0 #A259FF,
+        4px 12px 0 0 #A259FF,
+        20px 12px 0 0 #A259FF,
+        24px 12px 0 0 #A259FF,
+        4px 4px 0 0 #00E5C8,
+        8px 4px 0 0 #00E5C8,
+        4px 8px 0 0 #00E5C8,
+        8px 8px 0 0 #00E5C8,
+        16px 4px 0 0 #FF4757,
+        20px 8px 0 0 #FF4757;
     }
 
-    .work-title {
-      font-family: var(--font-pixel);
-      font-size: 11px;
-      color: var(--copper);
-      line-height: 1.8;
-      margin-bottom: 8px;
+    .games-btn:hover::before,
+    .games-btn:hover::after {
+      opacity: 1;
     }
 
-    .work-desc {
-      font-family: var(--font-body);
-      font-size: 13px;
-      color: var(--white);
-      opacity: 0.7;
-      line-height: 1.6;
+    /* 3D isometric cube pixel art for XR button */
+    .xr-btn::before,
+    .xr-btn::after {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 4px;
+      position: relative;
+      left: -14px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      box-shadow:
+        /* ── TOP FACE (lightest — light purple) ── */
+        8px 0px 0 0 #C8A9FF,
+        12px 0px 0 0 #C8A9FF,
+        16px 0px 0 0 #C8A9FF,
+        4px 4px 0 0 #C8A9FF,
+        8px 4px 0 0 #C8A9FF,
+        12px 4px 0 0 #C8A9FF,
+        16px 4px 0 0 #C8A9FF,
+        20px 4px 0 0 #C8A9FF,
+        /* ── LEFT FACE (mid — purple) ── */
+        0px 8px 0 0 #A259FF,
+        4px 8px 0 0 #A259FF,
+        8px 8px 0 0 #A259FF,
+        12px 8px 0 0 #A259FF,
+        0px 12px 0 0 #A259FF,
+        4px 12px 0 0 #A259FF,
+        8px 12px 0 0 #A259FF,
+        12px 12px 0 0 #A259FF,
+        0px 16px 0 0 #A259FF,
+        4px 16px 0 0 #A259FF,
+        8px 16px 0 0 #A259FF,
+        12px 16px 0 0 #A259FF,
+        /* ── RIGHT FACE (darkest — dim purple) ── */
+        16px 8px 0 0 #6B3AAD,
+        20px 8px 0 0 #6B3AAD,
+        24px 8px 0 0 #6B3AAD,
+        16px 12px 0 0 #6B3AAD,
+        20px 12px 0 0 #6B3AAD,
+        24px 12px 0 0 #6B3AAD,
+        16px 16px 0 0 #6B3AAD,
+        20px 16px 0 0 #6B3AAD,
+        24px 16px 0 0 #6B3AAD,
+        /* ── EDGE HIGHLIGHTS (white) ── */
+        8px 0px 0 0 #E8E8D0,
+        12px 8px 0 0 #E8E8D0,
+        12px 16px 0 0 #E8E8D0;
+    }
+
+    .xr-btn:hover::before,
+    .xr-btn:hover::after {
+      opacity: 1;
+    }
+
+    .xr-btn:hover::before,
+    .xr-btn:hover::after {
+      opacity: 1;
     }
 
     /* ═══ CONTACT ═══ */
@@ -453,7 +618,7 @@
 
     .contact-email {
       font-family: var(--font-vt);
-      font-size: 42px;
+      font-size: 64px;
       color: var(--cyan);
       letter-spacing: 4px;
       display: inline-block;
@@ -471,17 +636,18 @@
     .social-links {
       display: flex;
       justify-content: center;
-      gap: 24px;
+      gap: 32px;
       flex-wrap: wrap;
+      margin-top: 48px;
     }
 
     .social-btn {
       font-family: var(--font-silk);
-      font-size: 10px;
+      font-size: 22px;
       color: var(--white);
       border: 1px solid var(--dim);
-      padding: 12px 24px;
-      letter-spacing: 2px;
+      padding: 26px 56px;
+      letter-spacing: 3px;
       transition: border-color 0.2s, color 0.2s;
       cursor: pointer;
     }
@@ -554,10 +720,16 @@
 <body>
 
   <nav>
-    <span class="nav-logo">ANAS</span>
+    <img class="nav-logo" src="logo.png" alt="ANAS Logo" />
     <ul class="nav-links">
       <li><a href="#about">ABOUT</a></li>
-      <li><a href="#works">WORKS</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-btn">WORKS <span style="font-size: 12px; vertical-align: middle;">▼</span></a>
+        <ul class="dropdown-content">
+          <li><a href="games.html">GAMES</a></li>
+          <li><a href="xr.html">XR</a></li>
+        </ul>
+      </li>
       <li><a href="#contact">CONTACT</a></li>
     </ul>
   </nav>
@@ -577,83 +749,62 @@
 
   <section id="about">
     <div class="about-content reveal">
-      <p class="about-label">// ABOUT ME</p>
-      <h2 class="about-heading">Building worlds<br />beyond the screen.</h2>
-      <p class="about-body">
-        Hi, I'm Anas! I'm originally from Cairo and currently a second-year Interactive Media and Immersive Technology
-        student at Asia Pacific University (APU). I absolutely love building VR and AR experiences that bring new worlds
-        to life. When I'm not diving into the XR space, you can usually find me making games just for fun and to keep my
-        creative gears turning.
-      </p>
-      <p class="about-body">
-        On the technical side, my go-to engine is Unity. Right now, I'm really focused on leveling up my C# programming
-        and getting hands-on with different XR toolkits to build smoother interactions. Ultimately, I just love
-        tinkering with technology and am always eager to learn, experiment, and jump into whatever new opportunities
-        come my way.
-      </p>
-      <div class="skill-tags">
-        <span class="tag">UNITY</span>
-        <span class="tag">VR/AR</span>
-        <span class="tag">C#</span>
-        <span class="tag">XRI</span>
-        <span class="tag">BLENDER</span>
-      </div>
+      <h2 class="about-heading">A glimpse about me<br />
+        <p class="about-body">
+          Hi, I'm Anas! I'm originally from Cairo and currently a second-year Interactive Media and Immersive Technology
+          student at Asia Pacific University (APU). I absolutely love building VR and AR experiences that bring new
+          worlds
+          to life. When I'm not diving into the XR space, you can usually find me making games just for fun and to keep
+          my
+          creative gears turning.
+        </p>
+        <p class="about-body">
+          On the technical side, my go-to engine is Unity. Right now, I'm really focused on leveling up my C#
+          programming
+          and getting hands-on with different XR toolkits to build smoother interactions. Ultimately, I just love
+          tinkering with technology and am always eager to learn, experiment, and jump into whatever new opportunities
+          come my way.
+        </p>
+        <div class="skill-tags">
+          <span class="tag">UNITY</span>
+          <span class="tag">VR/AR</span>
+          <span class="tag">C#</span>
+          <span class="tag">XRI</span>
+          <span class="tag">BLENDER</span>
+        </div>
     </div>
 
     <div class="about-image-box reveal">
       <img class="about-photo" src="meta-quest.png" alt="Anas — Meta Quest photo" />
-      <!-- ✅ CV file: rename your CV image to cv.png and place it in the same folder -->
       <a class="cv-btn" href="cv.PDF" target="_blank">[ CV ]</a>
+      <div class="cv-hint">
+        <span class="cv-hint-arrow">&#9650;</span>
+        <span class="cv-hint-text">see my CV from here</span>
+      </div>
     </div>
   </section>
 
   <div class="pixel-divider"></div>
 
   <section id="works">
-    <p class="section-label reveal">// SELECTED WORKS</p>
     <h2 class="section-heading reveal">Things I've built</h2>
-    <p class="section-sub reveal">— more details coming soon —</p>
+    <p class="section-sub reveal">— Select a path to explore —</p>
 
-    <div class="works-grid">
-      <div class="work-card reveal">
-        <div class="work-thumb-placeholder">[ PROJECT SCREENSHOT ]</div>
-        <div class="work-info">
-          <span class="work-tag">UNITY · VR</span>
-          <p class="work-title">Project Title One</p>
-          <p class="work-desc">Short description of what this project does and what problem it solves.</p>
-        </div>
-      </div>
-
-      <div class="work-card reveal">
-        <div class="work-thumb-placeholder">[ PROJECT SCREENSHOT ]</div>
-        <div class="work-info">
-          <span class="work-tag">REACT · WEB</span>
-          <p class="work-title">Project Title Two</p>
-          <p class="work-desc">Short description of what this project does and what problem it solves.</p>
-        </div>
-      </div>
-
-      <div class="work-card reveal">
-        <div class="work-thumb-placeholder">[ PROJECT SCREENSHOT ]</div>
-        <div class="work-info">
-          <span class="work-tag">XR · TRAINING</span>
-          <p class="work-title">Project Title Three</p>
-          <p class="work-desc">Short description of what this project does and what problem it solves.</p>
-        </div>
-      </div>
+    <div class="works-categories reveal">
+      <a href="games.html" class="category-btn games-btn">GAMES</a>
+      <a href="xr.html" class="category-btn xr-btn">XR</a>
     </div>
   </section>
 
   <div class="pixel-divider"></div>
 
   <section id="contact">
-    <p class="section-label reveal">// GET IN TOUCH</p>
     <h2 class="section-heading reveal">Let's build something.</h2>
-    <a class="contact-email reveal" href="mailto:your@email.com">your@email.com</a>
+    <p class="section-sub reveal">Contact me at</p>
+    <a class="contact-email reveal" href="mailto:anasibrahim1430@gmail.com">anasibrahim1430@gmail.com</a>
     <div class="social-links reveal">
       <a class="social-btn" href="#" target="_blank">GITHUB</a>
       <a class="social-btn" href="#" target="_blank">LINKEDIN</a>
-      <a class="social-btn" href="#" target="_blank">TWITTER / X</a>
       <a class="social-btn" href="#" target="_blank">ITCH.IO</a>
     </div>
   </section>
@@ -671,10 +822,7 @@
     const PARTICLE_COUNT = 80;
     let particles = [];
 
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resize);
     resize();
 
@@ -700,14 +848,11 @@
     function tick() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((p, i) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.alpha += p.alphaDir;
+        p.x += p.vx; p.y += p.vy; p.alpha += p.alphaDir;
         if (p.alpha >= p.alphaMax) p.alphaDir = -Math.abs(p.alphaDir);
         if (p.alpha <= p.alphaMin) p.alphaDir = Math.abs(p.alphaDir);
         if (p.y < -4 || p.x < -4 || p.x > canvas.width + 4) {
-          particles[i] = createParticle();
-          particles[i].y = canvas.height + 4;
+          particles[i] = createParticle(); particles[i].y = canvas.height + 4;
         }
         ctx.globalAlpha = p.alpha;
         ctx.fillStyle = p.color;
@@ -733,6 +878,16 @@
       { threshold: 0.15 }
     );
     reveals.forEach(el => observer.observe(el));
+
+    const dropdownBtn = document.querySelector('.dropdown-btn');
+    const dropdownContent = document.querySelector('.dropdown-content');
+    if (dropdownBtn && dropdownContent) {
+      dropdownBtn.addEventListener('click', (e) => { e.preventDefault(); dropdownContent.classList.toggle('show'); });
+      document.addEventListener('click', (e) => {
+        if (!dropdownBtn.contains(e.target) && !dropdownContent.contains(e.target))
+          dropdownContent.classList.remove('show');
+      });
+    }
   </script>
 
 </body>
