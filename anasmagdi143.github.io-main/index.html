@@ -684,35 +684,111 @@
     /* ═══ RESPONSIVE ═══ */
     @media (max-width: 768px) {
       nav {
-        padding: 16px 20px;
+        padding: 16px 12px;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .nav-logo {
+        height: 40px;
       }
 
       .nav-links {
-        font-size: 8px;
+        font-size: 14px;
         gap: 0;
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
       .hero-inner {
         padding: 0 20px;
-        top: 42%;
+        top: 35%;
+        text-align: center;
       }
 
       .hero-subtitle {
+        position: static;
         padding-left: 0;
-        font-size: 20px;
+        font-size: 18px;
+        text-align: center;
+        width: 100%;
+        opacity: 0;
+        margin-top: -20px;
+        margin-bottom: 20px;
+        animation: fadeUp 1s ease 0.5s forwards;
       }
 
-      .hero-character {
-        width: 78vw;
+      .hero-title {
+        text-align: center;
+        font-size: clamp(20px, 5.5vw, 32px);
+        letter-spacing: 0.1em;
+      }
+
+      .hero-title span {
+        letter-spacing: 0.1em !important;
+      }
+
+      .hero-location {
+        padding-right: 0;
+        text-align: center;
+        margin-top: 8px;
+      }
+
+      .hero-character-wrap {
+        left: 12%;
+        width: clamp(350px, 95vw, 500px);
       }
 
       #about {
         grid-template-columns: 1fr;
-        gap: 48px;
+        gap: 60px;
+        text-align: center;
+      }
+
+      .skill-tags {
+        justify-content: center;
+      }
+
+      .about-image-box {
+        left: 0;
+        max-width: 320px;
+        margin: 0 auto;
       }
 
       section {
         padding: 72px 24px;
+      }
+
+      .works-categories {
+        gap: 40px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        flex-direction: column;
+      }
+
+      .category-btn {
+        min-width: 260px;
+        font-size: 24px;
+        padding: 16px 32px;
+      }
+
+      .contact-email {
+        font-size: clamp(20px, 6vw, 32px);
+        margin: 24px 0 32px;
+        word-break: break-all;
+      }
+
+      .social-links {
+        gap: 16px;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .social-btn {
+        padding: 16px 32px;
+        font-size: 16px;
+        width: 100%;
+        max-width: 260px;
       }
     }
   </style>
