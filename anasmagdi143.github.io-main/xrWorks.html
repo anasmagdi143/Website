@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ANAS — XR Developer</title>
+  <title>XR Works — ANAS</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -791,6 +791,81 @@
         max-width: 260px;
       }
     }
+
+    /* ═══ WORKS GALLERY ═══ */
+    #gallery {
+      padding-top: 150px;
+      min-height: calc(100vh - 100px);
+      text-align: center;
+      padding-bottom: 100px;
+    }
+
+    .gallery-heading {
+      font-family: var(--font-pixel);
+      font-size: clamp(24px, 4vw, 42px);
+      color: var(--copper);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    .gallery-sub {
+      font-family: var(--font-vt);
+      font-size: 32px;
+      color: var(--cyan);
+      opacity: 0.6;
+      margin-bottom: 80px;
+      letter-spacing: 2px;
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .work-card {
+      background: rgba(13, 13, 13, 0.8);
+      border: 2px solid var(--dim);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .work-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--cyan);
+      box-shadow: 0 8px 0 0 rgba(0, 229, 200, 0.2);
+    }
+
+    .work-card-img {
+      width: 100%;
+      height: 200px;
+      background: var(--dim);
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: var(--font-vt);
+      color: var(--white);
+      opacity: 0.5;
+      font-size: 24px;
+      border: 1px dashed var(--white);
+    }
+
+    .work-card-title {
+      font-family: var(--font-silk);
+      font-size: 24px;
+      color: var(--copper);
+      letter-spacing: 2px;
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -799,7 +874,7 @@
   <nav>
     <img class="nav-logo" src="logo.png" alt="ANAS Logo" />
     <ul class="nav-links">
-      <li><a href="#about">ABOUT</a></li>
+      <li><a href="index.html#about">ABOUT</a></li>
       <li class="dropdown">
         <a href="#" class="dropdown-btn">WORKS <span style="font-size: 12px; vertical-align: middle;">▼</span></a>
         <ul class="dropdown-content">
@@ -807,82 +882,22 @@
           <li><a href="xrWorks.html">VR</a></li>
         </ul>
       </li>
-      <li><a href="#contact">CONTACT</a></li>
+      <li><a href="index.html#contact">CONTACT</a></li>
     </ul>
   </nav>
 
-  <section id="hero">
-    <div class="hero-inner">
-      <p class="hero-subtitle">My name is Anas , and I am a...</p>
-      <h1 class="hero-title">XR&nbsp;<span style="letter-spacing: 0.6em;">DEVELOPER</span></h1>
-      <p class="hero-location">Based in KL , Malaysia</p>
-    </div>
-    <div class="hero-character-wrap">
-      <img class="hero-character" src="pexel-art.png" alt="Anas — pixel art character" />
-    </div>
-  </section>
+  <section id="gallery">
+    <h2 class="gallery-heading reveal">XR Works</h2>
+    <p class="gallery-sub reveal">— Immersive Experiences —</p>
 
-  <div class="pixel-divider"></div>
-
-  <section id="about">
-    <div class="about-content reveal">
-      <h2 class="about-heading">A glimpse about me<br />
-        <p class="about-body">
-          Hi, I'm Anas! I'm originally from Cairo and currently a second-year Interactive Media and Immersive Technology
-          student at Asia Pacific University (APU). I absolutely love building VR and AR experiences that bring new
-          worlds
-          to life. When I'm not diving into the XR space, you can usually find me making games just for fun and to keep
-          my
-          creative gears turning.
-        </p>
-        <p class="about-body">
-          On the technical side, my go-to engine is Unity. Right now, I'm really focused on leveling up my C#
-          programming
-          and getting hands-on with different XR toolkits to build smoother interactions. Ultimately, I just love
-          tinkering with technology and am always eager to learn, experiment, and jump into whatever new opportunities
-          come my way.
-        </p>
-        <div class="skill-tags">
-          <span class="tag">UNITY</span>
-          <span class="tag">VR/AR</span>
-          <span class="tag">C#</span>
-          <span class="tag">XRI</span>
-          <span class="tag">BLENDER</span>
+    <div class="cards-container reveal">
+      <div class="work-card">
+        <div class="work-card-img">
+          <span>ASTRA-LENS</span>
         </div>
-    </div>
-
-    <div class="about-image-box reveal">
-      <img class="about-photo" src="meta-quest.png" alt="Anas — Meta Quest photo" />
-      <a class="cv-btn" href="cv.PDF" target="_blank">[ CV ]</a>
-      <div class="cv-hint">
-        <span class="cv-hint-arrow">&#9650;</span>
-        <span class="cv-hint-text">see my CV from here</span>
+        <h3 class="work-card-title">Astra-Lens</h3>
+        <p style="color: var(--white); opacity: 0.8; font-family: var(--font-body); text-align: center; margin-top: 12px; line-height: 1.6;">An immersive mixed reality experience.</p>
       </div>
-    </div>
-  </section>
-
-  <div class="pixel-divider"></div>
-
-  <section id="works">
-    <h2 class="section-heading reveal">Things I've built</h2>
-    <p class="section-sub reveal">— Select a path to explore —</p>
-
-    <div class="works-categories reveal">
-      <a href="games.html" class="category-btn games-btn">GAMES</a>
-      <a href="xrWorks.html" class="category-btn xr-btn">XR</a>
-    </div>
-  </section>
-
-  <div class="pixel-divider"></div>
-
-  <section id="contact">
-    <h2 class="section-heading reveal">Let's build something.</h2>
-    <p class="section-sub reveal">Contact me at</p>
-    <a class="contact-email reveal" href="mailto:anasibrahim1430@gmail.com">anasibrahim1430@gmail.com</a>
-    <div class="social-links reveal">
-      <a class="social-btn" href="#" target="_blank">GITHUB</a>
-      <a class="social-btn" href="#" target="_blank">LINKEDIN</a>
-      <a class="social-btn" href="#" target="_blank">ITCH.IO</a>
     </div>
   </section>
 
