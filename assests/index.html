@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="logo-res3.png" />
   <title>ANAS — XR Developer</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -348,11 +349,19 @@
       font-weight: bold;
     }
 
+    .skills-heading {
+      font-family: var(--font-vt);
+      font-size: 38px;
+      color: var(--cyan);
+      letter-spacing: 4px;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+
     .skill-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 28px;
     }
 
     .tag {
@@ -663,7 +672,7 @@
       text-align: center;
       padding: 32px;
       font-family: var(--font-silk);
-      font-size: 8px;
+      font-size: 14px;
       color: var(--dim);
       letter-spacing: 2px;
       border-top: 1px solid var(--dim);
@@ -679,6 +688,59 @@
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* ═══ BIG SCREEN OPTIMIZATION (2000px+) ═══ */
+    /* Only kicks in on 2K / 4K external monitors.
+       FHD laptops (1920px wide) and mobile keep their original look untouched. */
+    @media (min-width: 2000px) {
+      .hero-inner {
+        padding: 0 80px 0 120px;
+      }
+
+      .hero-subtitle {
+        font-size: 44px;
+        top: -110px;
+        letter-spacing: 4px;
+      }
+
+      .hero-title {
+        font-size: clamp(86px, 6.5vw, 128px);
+      }
+
+      .hero-location {
+        font-size: 28px;
+        padding-right: 60px;
+        letter-spacing: 4px;
+      }
+
+      .hero-character-wrap {
+        width: clamp(630px, 48vw, 900px);
+      }
+    }
+
+    /* Extra bump for 4K / ultrawide (2560px+) */
+    @media (min-width: 2560px) {
+      .hero-inner {
+        padding: 0 120px 0 180px;
+      }
+
+      .hero-subtitle {
+        font-size: 54px;
+        top: -130px;
+      }
+
+      .hero-title {
+        font-size: clamp(128px, 6.5vw, 156px);
+      }
+
+      .hero-location {
+        font-size: 34px;
+      }
+
+      .hero-character-wrap {
+        width: clamp(900px, 48vw, 1080px);
+      }
     }
 
     /* ═══ RESPONSIVE ═══ */
@@ -797,7 +859,7 @@
 <body>
 
   <nav>
-    <img class="nav-logo" src="logo.png" alt="ANAS Logo" />
+    <a href="index.html"><img class="nav-logo" src="logo.png" alt="ANAS Logo" /></a>
     <ul class="nav-links">
       <li><a href="#about">ABOUT</a></li>
       <li class="dropdown">
@@ -842,12 +904,16 @@
           tinkering with technology and am always eager to learn, experiment, and jump into whatever new opportunities
           come my way.
         </p>
+        <h3 class="skills-heading">Software Skills</h3>
         <div class="skill-tags">
           <span class="tag">UNITY</span>
-          <span class="tag">VR/AR</span>
           <span class="tag">C#</span>
           <span class="tag">XRI</span>
           <span class="tag">BLENDER</span>
+          <span class="tag">PHOTOSHOP CC</span>
+          <span class="tag">ILLUSTRATOR CC</span>
+          <span class="tag">AFTER EFFECTS CC</span>
+          <span class="tag">PREMIERE PRO CC</span>
         </div>
     </div>
 
@@ -880,14 +946,15 @@
     <p class="section-sub reveal">Contact me at</p>
     <a class="contact-email reveal" href="mailto:anasibrahim1430@gmail.com">anasibrahim1430@gmail.com</a>
     <div class="social-links reveal">
-      <a class="social-btn" href="#" target="_blank">GITHUB</a>
-      <a class="social-btn" href="#" target="_blank">LINKEDIN</a>
-      <a class="social-btn" href="#" target="_blank">ITCH.IO</a>
+      <a class="social-btn" href="https://github.com/anasmagdi143" target="_blank">GITHUB</a>
+      <a class="social-btn" href="https://www.linkedin.com/in/anasmagdi" target="_blank">LINKEDIN</a>
+      <a class="social-btn" href="https://crystalmyth.itch.io/" target="_blank">ITCH.IO</a>
     </div>
   </section>
 
   <footer>
-    &copy; 2026 ANAS — BUILT WITH ♥ &amp; PIXELS
+    &copy; 2026 Anas Ibrahim all the rights reserved<br />
+    Website coded with assistance from Claude. revised &amp; assembled by me
   </footer>
 
   <canvas id="particle-canvas"></canvas>
