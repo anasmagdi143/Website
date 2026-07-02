@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="logo-res3.png" />
+    <title>Skills — ANAS</title>
+    <meta name="description"
+        content="Anas Ibrahim's skill set — soft skills, technical abilities, tools, and languages." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Silkscreen:wght@400;700&family=Courier+Prime:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg: #0D0D0D;
+            --copper: #C8A97A;
+            --cyan: #00E5C8;
+            --purple: #A259FF;
+            --red: #FF4757;
+            --white: #E8E8D0;
+            --dim: #444440;
+
+            --font-pixel: 'Press Start 2P', monospace;
+            --font-vt: 'VT323', monospace;
+            --font-silk: 'Silkscreen', monospace;
+            --font-body: 'Courier Prime', monospace;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.7;
+            overflow-x: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='4' height='4' fill='%2300E5C8'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%2300E5C8'/%3E%3Crect x='8' y='8' width='4' height='4' fill='%2300E5C8'/%3E%3Crect x='12' y='12' width='4' height='4' fill='%2300E5C8'/%3E%3C/svg%3E") 0 0, crosshair;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(to bottom,
+                    transparent 0px, transparent 2px,
+                    rgba(0, 0, 0, 0.08) 2px, rgba(0, 0, 0, 0.08) 4px);
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        section {
+            padding: 100px 48px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pixel-divider {
+            width: 100%;
+            height: 4px;
+            background: repeating-linear-gradient(to right,
+                    var(--dim) 0px, var(--dim) 8px,
+                    transparent 8px, transparent 16px);
+            margin: 0;
+        }
+
+        /* ═══ NAV ═══ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 32px 80px;
+            background: rgba(13, 13, 13, 0.92);
+            backdrop-filter: blur(4px);
+            border-bottom: 1px solid var(--dim);
+        }
+
+        .nav-logo {
+            height: 56px;
+            width: auto;
+            display: block;
+            image-rendering: pixelated;
+            filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.5));
+            transition: transform 0.2s;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0;
+            list-style: none;
+            font-family: var(--font-silk);
+            font-size: 24px;
+            letter-spacing: 3px;
+        }
+
+        .nav-links li a {
+            color: var(--purple);
+            padding: 6px 12px;
+            display: inline-block;
+            transition: color 0.15s, transform 0.15s;
+        }
+
+        .nav-links li a:hover {
+            color: var(--cyan);
+            transform: scale(1.1);
+        }
+
+        .nav-links li {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li:not(:last-child)::after {
+            content: '';
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            margin: 0 8px;
+            background-image: url('star.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13, 13, 13, 0.95);
+            border: 1px solid var(--dim);
+            padding: 8px 0;
+            list-style: none;
+            min-width: 140px;
+            text-align: center;
+            z-index: 101;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            flex-direction: column;
+            gap: 0;
+            margin-top: 12px;
+        }
+
+        .dropdown-content.show {
+            display: flex;
+            animation: fadeUpDropdown 0.2s ease forwards;
+        }
+
+        @keyframes fadeUpDropdown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        .dropdown-content li {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .dropdown-content li::after {
+            display: none !important;
+        }
+
+        .dropdown-content li a {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            color: var(--white);
+        }
+
+        .dropdown-content li a:hover {
+            background: var(--dim);
+            color: var(--cyan);
+            transform: scale(1.05);
+        }
+
+        /* ═══ FOOTER ═══ */
+        footer {
+            text-align: center;
+            padding: 32px;
+            font-family: var(--font-silk);
+            font-size: 14px;
+            color: var(--dim);
+            letter-spacing: 2px;
+            border-top: 1px solid var(--dim);
+        }
+
+        /* ═══ SCROLL REVEAL ═══ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ═══ SKILLS PAGE HEADER ═══ */
+        #skills-header {
+            padding-top: 160px;
+            padding-bottom: 40px;
+            text-align: center;
+        }
+
+        .skills-page-title {
+            font-family: var(--font-pixel);
+            font-size: clamp(24px, 4vw, 42px);
+            color: var(--copper);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        .skills-page-sub {
+            font-family: var(--font-vt);
+            font-size: 32px;
+            color: var(--cyan);
+            opacity: 0.6;
+            letter-spacing: 2px;
+        }
+
+        /* ═══ SKILLS WINDOWS GRID ═══ */
+        #skills-grid {
+            padding-top: 20px;
+            padding-bottom: 100px;
+        }
+
+        .windows-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ═══ SKILL WINDOW (retro OS style) ═══ */
+        .skill-window {
+            background: rgba(13, 13, 13, 0.85);
+            border: 2px solid var(--dim);
+            position: relative;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+
+        .skill-window:hover {
+            border-color: var(--cyan);
+            box-shadow:
+                0 0 20px rgba(0, 229, 200, 0.08),
+                0 8px 0 0 rgba(0, 229, 200, 0.15);
+            transform: translateY(-4px);
+        }
+
+        /* ── Title Bar ── */
+        .window-titlebar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: var(--dim);
+            border-bottom: 2px solid var(--dim);
+            user-select: none;
+        }
+
+        .skill-window:hover .window-titlebar {
+            background: rgba(0, 229, 200, 0.12);
+            border-bottom-color: var(--cyan);
+        }
+
+        .window-titlebar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .window-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 0;
+            /* pixel style — square dots */
+        }
+
+        .window-dot.red {
+            background: var(--red);
+        }
+
+        .window-dot.yellow {
+            background: #FFD93D;
+        }
+
+        .window-dot.green {
+            background: var(--cyan);
+        }
+
+        .window-title {
+            font-family: var(--font-silk);
+            font-size: 18px;
+            color: var(--copper);
+            letter-spacing: 3px;
+        }
+
+        .window-icon {
+            font-family: var(--font-vt);
+            font-size: 22px;
+            color: var(--dim);
+            opacity: 0.5;
+        }
+
+        .skill-window:hover .window-icon {
+            color: var(--cyan);
+            opacity: 0.8;
+        }
+
+        /* ── Window Body ── */
+        .window-body {
+            padding: 28px 24px;
+        }
+
+        .skill-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 8px;
+            border-bottom: 1px solid rgba(68, 68, 64, 0.4);
+            transition: background 0.15s, padding-left 0.2s;
+        }
+
+        .skill-item:last-child {
+            border-bottom: none;
+        }
+
+        .skill-item:hover {
+            background: rgba(0, 229, 200, 0.04);
+            padding-left: 16px;
+        }
+
+        .skill-bullet {
+            font-family: var(--font-vt);
+            font-size: 22px;
+            color: var(--cyan);
+            flex-shrink: 0;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .skill-item:hover .skill-bullet {
+            opacity: 1;
+        }
+
+        .skill-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .skill-name {
+            font-family: var(--font-body);
+            font-size: 20px;
+            color: var(--white);
+            letter-spacing: 1px;
+            font-weight: bold;
+            opacity: 0.85;
+        }
+
+        .skill-item:hover .skill-name {
+            opacity: 1;
+            color: var(--cyan);
+        }
+
+        .skill-proof {
+            font-family: var(--font-vt);
+            font-size: 22px;
+            color: var(--copper);
+            opacity: 0.55;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+
+        .skill-item:hover .skill-proof {
+            opacity: 0.8;
+        }
+
+        /* ── Full-width window variant (spans 2 cols) ── */
+        .skill-window.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .skill-window.full-width .window-body {
+            padding: 28px 32px;
+        }
+
+        .skill-window.full-width .skill-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0 32px;
+        }
+
+        .skill-window.full-width .skill-item {
+            border-bottom: 1px solid rgba(68, 68, 64, 0.4);
+        }
+
+        /* ── Tag variant for tools window ── */
+        .skill-tags-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 4px 0;
+        }
+
+        .skill-tag {
+            font-family: var(--font-silk);
+            font-size: 16px;
+            color: var(--cyan);
+            border: 1px solid var(--cyan);
+            padding: 12px 26px;
+            letter-spacing: 1px;
+            transition: background 0.15s, color 0.15s, transform 0.15s;
+        }
+
+        .skill-tag:hover {
+            background: var(--cyan);
+            color: var(--bg);
+            transform: scale(1.05);
+        }
+
+        .skill-tag.purple {
+            color: var(--purple);
+            border-color: var(--purple);
+        }
+
+        .skill-tag.purple:hover {
+            background: var(--purple);
+            color: var(--bg);
+        }
+
+        .skill-tag.copper {
+            color: var(--copper);
+            border-color: var(--copper);
+        }
+
+        .skill-tag.copper:hover {
+            background: var(--copper);
+            color: var(--bg);
+        }
+
+        /* ═══ STATUS BAR (bottom of window) ═══ */
+        .window-statusbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 16px;
+            border-top: 1px solid rgba(68, 68, 64, 0.3);
+            font-family: var(--font-vt);
+            font-size: 16px;
+            color: var(--dim);
+            letter-spacing: 1px;
+        }
+
+        .statusbar-count {
+            color: var(--cyan);
+            opacity: 0.6;
+        }
+
+        .statusbar-label {
+            opacity: 0.5;
+        }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media (max-width: 768px) {
+            nav {
+                padding: 16px 12px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-logo {
+                height: 40px;
+            }
+
+            .nav-links {
+                font-size: 14px;
+                gap: 0;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            section {
+                padding: 72px 24px;
+            }
+
+            #skills-header {
+                padding-top: 130px;
+                padding-bottom: 20px;
+            }
+
+            .windows-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .skill-window.full-width .skill-list {
+                grid-template-columns: 1fr;
+            }
+
+            .skill-tags-grid {
+                gap: 8px;
+            }
+
+            .skill-tag {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+
+            .window-title {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html"><img class="nav-logo" src="logo.PNG" alt="ANAS Logo" /></a>
+        <ul class="nav-links">
+            <li><a href="index.html#about">ABOUT</a></li>
+            <li><a href="skills.html">SKILLS</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-btn">WORKS <span
+                        style="font-size: 12px; vertical-align: middle;">▼</span></a>
+                <ul class="dropdown-content">
+                    <li><a href="games.html">GAMES</a></li>
+                    <li><a href="xrWorks.html">XR</a></li>
+                </ul>
+            </li>
+            <li><a href="index.html#contact">CONTACT</a></li>
+        </ul>
+    </nav>
+
+    <!-- ═══ HEADER ═══ -->
+    <section id="skills-header">
+        <h1 class="skills-page-title reveal">Skills & Abilities</h1>
+        <p class="skills-page-sub reveal">— What I bring to the table —</p>
+    </section>
+
+    <div class="pixel-divider"></div>
+
+    <!-- ═══ SKILLS GRID ═══ -->
+    <section id="skills-grid">
+        <div class="windows-grid">
+
+            <!-- ── Soft Skills Window (full width) ── -->
+            <div class="skill-window full-width reveal">
+                <div class="window-titlebar">
+                    <div class="window-titlebar-left">
+                        <div class="window-dots">
+                            <div class="window-dot red"></div>
+                            <div class="window-dot yellow"></div>
+                            <div class="window-dot green"></div>
+                        </div>
+                        <span class="window-title">Soft Skills</span>
+                    </div>
+                    <span class="window-icon">◈</span>
+                </div>
+                <div class="window-body">
+                    <ul class="skill-list">
+                        <li class="skill-item">
+                            <span class="skill-bullet">▸</span>
+                            <div class="skill-text">
+                                <span class="skill-name">Leadership</span>
+                                <span class="skill-proof">President of ACM SIGGRAPH Student Chapter — leading chapter
+                                    vision, events & team direction</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-bullet">▸</span>
+                            <div class="skill-text">
+                                <span class="skill-name">Team Collaboration</span>
+                                <span class="skill-proof">Coordinated cross-functional teams as APU Game Dev Club
+                                    External Affairs Head </span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-bullet">▸</span>
+                            <div class="skill-text">
+                                <span class="skill-name">Communication</span>
+                                <span class="skill-proof">External liaison for APU Game Dev Club — managing
+                                    partnerships, outreach & public-facing communications</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-bullet">▸</span>
+                            <div class="skill-text">
+                                <span class="skill-name">Problem Solving</span>
+                                <span class="skill-proof">Navigated logistics, budgets & event challenges across both
+                                    SIGGRAPH & APU Game Dev Club leadership roles</span>
+                            </div>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-bullet">▸</span>
+                            <div class="skill-text">
+                                <span class="skill-name">Adaptability</span>
+                                <span class="skill-proof">Pivoted between creative, technical & managerial
+                                    responsibilities across multiple club roles</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ── Programming Languages Window ── -->
+            <div class="skill-window reveal">
+                <div class="window-titlebar">
+                    <div class="window-titlebar-left">
+                        <div class="window-dots">
+                            <div class="window-dot red"></div>
+                            <div class="window-dot yellow"></div>
+                            <div class="window-dot green"></div>
+                        </div>
+                        <span class="window-title">Programming Languages</span>
+                    </div>
+                    <span class="window-icon">◈</span>
+                </div>
+                <div class="window-body">
+                    <div class="skill-tags-grid">
+                        <span class="skill-tag">PYTHON</span>
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">UNREAL BLUEPRINTS</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Engines & Tools Window ── -->
+            <div class="skill-window reveal">
+                <div class="window-titlebar">
+                    <div class="window-titlebar-left">
+                        <div class="window-dots">
+                            <div class="window-dot red"></div>
+                            <div class="window-dot yellow"></div>
+                            <div class="window-dot green"></div>
+                        </div>
+                        <span class="window-title">Engines & Tools</span>
+                    </div>
+                    <span class="window-icon">◈</span>
+                </div>
+                <div class="window-body">
+                    <div class="skill-tags-grid">
+                        <span class="skill-tag">UNITY</span>
+                        <span class="skill-tag">UNREAL ENGINE</span>
+                        <span class="skill-tag">BLENDER</span>
+                        <span class="skill-tag">MAYA</span>
+                        <span class="skill-tag">PHOTOSHOP CC</span>
+                        <span class="skill-tag">ILLUSTRATOR CC</span>
+                        <span class="skill-tag">AFTER EFFECTS CC</span>
+                        <span class="skill-tag">PREMIERE PRO CC</span>
+                        <span class="skill-tag">DAVINCI RESOLVE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Libraries & SDKs Window (full width) ── -->
+            <div class="skill-window full-width reveal">
+                <div class="window-titlebar">
+                    <div class="window-titlebar-left">
+                        <div class="window-dots">
+                            <div class="window-dot red"></div>
+                            <div class="window-dot yellow"></div>
+                            <div class="window-dot green"></div>
+                        </div>
+                        <span class="window-title">Libraries & SDKs</span>
+                    </div>
+                    <span class="window-icon">◈</span>
+                </div>
+                <div class="window-body">
+                    <div class="skill-tags-grid">
+                        <span class="skill-tag">META XR SDK</span>
+                        <span class="skill-tag">OPENXR</span>
+                        <span class="skill-tag">HAND TRACKING</span>
+                        <span class="skill-tag">XR INTERACTION TOOLKIT (XRI)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Languages Window ── -->
+            <div class="skill-window reveal">
+                <div class="window-titlebar">
+                    <div class="window-titlebar-left">
+                        <div class="window-dots">
+                            <div class="window-dot red"></div>
+                            <div class="window-dot yellow"></div>
+                            <div class="window-dot green"></div>
+                        </div>
+                        <span class="window-title">Languages</span>
+                    </div>
+                    <span class="window-icon">◈</span>
+                </div>
+                <div class="window-body">
+                    <ul class="skill-list">
+                        <li class="skill-item">
+                            <span class="skill-bullet">▸</span>
+                            <span class="skill-name">Arabic — Native</span>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-bullet">▸</span>
+                            <span class="skill-name">English — Fluent</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ── Currently Learning Window ── -->
+            <div class="skill-window reveal">
+                <div class="window-titlebar">
+                    <div class="window-titlebar-left">
+                        <div class="window-dots">
+                            <div class="window-dot red"></div>
+                            <div class="window-dot yellow"></div>
+                            <div class="window-dot green"></div>
+                        </div>
+                        <span class="window-title">Currently Learning</span>
+                    </div>
+                    <span class="window-icon">◈</span>
+                </div>
+                <div class="window-body">
+                    <ul class="skill-list">
+                        <li class="skill-item">
+                            <span class="skill-bullet">▸</span>
+                            <span class="skill-name">Advanced C# Patterns</span>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-bullet">▸</span>
+                            <span class="skill-name">Shader Programming</span>
+                        </li>
+                        <li class="skill-item">
+                            <span class="skill-bullet">▸</span>
+                            <span class="skill-name">Unreal Engine VR Development</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Anas Ibrahim all the rights reserved<br />
+        Website coded with assistance from Claude. revised &amp; assembled by me
+    </footer>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        const COLORS = ['#00E5C8', '#A259FF', '#C8A97A', '#00E5C8', '#00E5C8'];
+        const PARTICLE_COUNT = 80;
+        let particles = [];
+
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function randomBetween(a, b) { return a + Math.random() * (b - a); }
+
+        function createParticle() {
+            return {
+                x: randomBetween(0, canvas.width),
+                y: randomBetween(0, canvas.height),
+                size: Math.random() < 0.5 ? 1 : 2,
+                color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                vx: randomBetween(-0.25, 0.25),
+                vy: randomBetween(-0.4, -0.1),
+                alpha: randomBetween(0.1, 0.7),
+                alphaDir: Math.random() < 0.5 ? 0.004 : -0.004,
+                alphaMin: 0.05,
+                alphaMax: randomBetween(0.4, 0.8),
+            };
+        }
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(createParticle());
+
+        function tick() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; p.alpha += p.alphaDir;
+                if (p.alpha >= p.alphaMax) p.alphaDir = -Math.abs(p.alphaDir);
+                if (p.alpha <= p.alphaMin) p.alphaDir = Math.abs(p.alphaDir);
+                if (p.y < -4 || p.x < -4 || p.x > canvas.width + 4) {
+                    particles[i] = createParticle(); particles[i].y = canvas.height + 4;
+                }
+                ctx.globalAlpha = p.alpha;
+                ctx.fillStyle = p.color;
+                ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(tick);
+        }
+        tick();
+    </script>
+
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((e, i) => {
+                    if (e.isIntersecting) {
+                        setTimeout(() => e.target.classList.add('visible'), i * 80);
+                        observer.unobserve(e.target);
+                    }
+                });
+            },
+            { threshold: 0.15 }
+        );
+        reveals.forEach(el => observer.observe(el));
+
+        const dropdownBtn = document.querySelector('.dropdown-btn');
+        const dropdownContent = document.querySelector('.dropdown-content');
+        if (dropdownBtn && dropdownContent) {
+            dropdownBtn.addEventListener('click', (e) => { e.preventDefault(); dropdownContent.classList.toggle('show'); });
+            document.addEventListener('click', (e) => {
+                if (!dropdownBtn.contains(e.target) && !dropdownContent.contains(e.target))
+                    dropdownContent.classList.remove('show');
+            });
+        }
+    </script>
+
+</body>
+
+</html>
