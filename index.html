@@ -379,6 +379,23 @@
       color: var(--bg);
     }
 
+    .skills-link {
+      display: inline-block;
+      margin-top: 24px;
+      font-family: var(--font-silk);
+      font-size: 18px;
+      color: var(--copper);
+      border-bottom: 2px dashed var(--copper);
+      padding-bottom: 4px;
+      transition: color 0.15s, border-bottom-color 0.15s, transform 0.15s;
+    }
+
+    .skills-link:hover {
+      color: var(--cyan);
+      border-bottom-color: var(--cyan);
+      transform: translateX(4px);
+    }
+
     .about-image-box {
       position: relative;
       left: 90px;
@@ -811,6 +828,11 @@
         justify-content: center;
       }
 
+      .skills-link {
+        font-size: 16px;
+        margin-top: 20px;
+      }
+
       .about-image-box {
         left: 0;
         max-width: 320px;
@@ -889,23 +911,33 @@
 
   <section id="about">
     <div class="about-content reveal">
-      <h2 class="about-heading">A glimpse about me<br />
-        <p class="about-body">
-          Hi, I'm Anas! I'm originally from Cairo and currently a second-year Interactive Media and Immersive Technology
-          student at Asia Pacific University (APU). I absolutely love building VR and AR experiences that bring new
-          worlds
-          to life. When I'm not diving into the XR space, you can usually find me making games just for fun and to keep
-          my
-          creative gears turning.
-        </p>
-        <p class="about-body">
-          On the technical side, my go-to engine is Unity. Right now, I'm really focused on leveling up my C#
-          programming
-          and getting hands-on with different XR toolkits to build smoother interactions. Ultimately, I just love
-          tinkering with technology and am always eager to learn, experiment, and jump into whatever new opportunities
-          come my way.
-        </p>
+      <h2 class="about-heading">A glimpse about me</h2>
+      <p class="about-body">
+        Hi, I'm Anas! I'm originally from Cairo and currently a second-year Interactive Media and Immersive Technology
+        student at Asia Pacific University (APU). I absolutely love building VR and AR experiences that bring new
+        worlds
+        to life. When I'm not diving into the XR space, you can usually find me making games just for fun and to keep
+        my
+        creative gears turning.
+      </p>
+      <p class="about-body">
+        On the technical side, my go-to engine is Unity. Right now, I'm really focused on leveling up my C#
+        programming
+        and getting hands-on with different XR toolkits to build smoother interactions. Ultimately, I just love
+        tinkering with technology and am always eager to learn, experiment, and jump into whatever new opportunities
+        come my way.
+      </p>
 
+      <h3 class="skills-heading">My Toolkit</h3>
+      <div class="skill-tags">
+        <span class="tag">UNITY</span>
+        <span class="tag">UNREAL ENGINE</span>
+        <span class="tag">C#</span>
+        <span class="tag">PYTHON</span>
+        <span class="tag">META XR SDK</span>
+        <span class="tag">OPENXR</span>
+      </div>
+      <a href="skills.html" class="skills-link">VIEW DETAILED SKILLS ➔</a>
     </div>
 
     <div class="about-image-box reveal">
