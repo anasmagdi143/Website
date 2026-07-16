@@ -240,7 +240,8 @@
 
     .hero-inner {
       position: absolute;
-      top: 33%;
+      /* nudged down from 33% — sat too high on 16:10 laptops (e.g. Zephyrus G14) */
+      top: 39%;
       transform: translateY(-50%);
       width: 100%;
       padding: 0 40px 0 clamp(48px, 5.5vw, 80px);
@@ -804,7 +805,7 @@
       }
 
       .hero-inner {
-        top: 30%;
+        top: 36%;
       }
 
       .hero-character-wrap {
@@ -907,18 +908,19 @@
       }
 
       /* true centering: the fadeUp animation overwrites translateX(-50%),
-         so we center with auto margins instead of transform */
+         so we center with auto margins instead of transform.
+         left/right offsets shift the centered image slightly right */
       .hero-character-wrap {
-        left: 0;
-        right: 0;
+        left: 32px;
+        right: -32px;
         margin-inline: auto;
         transform: none;
-        width: clamp(280px, 82vw, 460px);
-        max-height: 52vh;
+        width: clamp(360px, 102vw, 580px);
+        max-height: 62vh;
       }
 
       .hero-character {
-        max-height: 52vh;
+        max-height: 62vh;
       }
 
       #about {
@@ -987,9 +989,9 @@
       }
 
       .hero-character-wrap {
-        width: 92vw;
-        left: 0;
-        right: 0;
+        width: 104vw;
+        left: 32px;
+        right: -32px;
         margin-inline: auto;
       }
 
