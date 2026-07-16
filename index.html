@@ -76,10 +76,16 @@
       text-decoration: none;
     }
 
+    /* Fluid section padding: scales smoothly from phone to desktop */
     section {
-      padding: 100px 48px;
+      padding: clamp(72px, 10vw, 100px) clamp(20px, 5vw, 48px);
       max-width: 1200px;
       margin: 0 auto;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
     }
 
     .pixel-divider {
@@ -101,14 +107,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 32px 80px;
+      padding: clamp(16px, 2.5vw, 32px) clamp(24px, 5.5vw, 80px);
       background: rgba(13, 13, 13, 0.92);
       backdrop-filter: blur(4px);
       border-bottom: 1px solid var(--dim);
     }
 
     .nav-logo {
-      height: 56px;
+      height: clamp(40px, 4vw, 56px);
       width: auto;
       display: block;
       image-rendering: pixelated;
@@ -125,7 +131,7 @@
       gap: 0;
       list-style: none;
       font-family: var(--font-silk);
-      font-size: 24px;
+      font-size: clamp(16px, 1.8vw, 24px);
       letter-spacing: 3px;
     }
 
@@ -223,7 +229,9 @@
 
     /* ═══ HERO ═══ */
     #hero {
+      /* svh = stable height on mobile browsers (no address-bar jump) */
       min-height: 100vh;
+      min-height: 100svh;
       padding: 0;
       max-width: 100%;
       position: relative;
@@ -235,14 +243,14 @@
       top: 33%;
       transform: translateY(-50%);
       width: 100%;
-      padding: 0 40px 0 80px;
+      padding: 0 40px 0 clamp(48px, 5.5vw, 80px);
       box-sizing: border-box;
       z-index: 1;
     }
 
     .hero-subtitle {
       font-family: var(--font-vt);
-      font-size: 32px;
+      font-size: clamp(22px, 2.4vw, 32px);
       color: var(--cyan);
       letter-spacing: 3px;
       position: absolute;
@@ -269,7 +277,8 @@
       font-family: var(--font-pixel);
       font-size: clamp(32px, 6.8vw, 86px);
       color: var(--copper);
-      letter-spacing: 0.38em;
+      /* letter-spacing scales with viewport so the nowrap line never overflows */
+      letter-spacing: clamp(0.12em, 0.02em + 0.45vw, 0.38em);
       line-height: 1;
       margin-bottom: 18px;
       white-space: nowrap;
@@ -280,7 +289,7 @@
 
     .hero-location {
       font-family: var(--font-body);
-      font-size: 20px;
+      font-size: clamp(16px, 1.5vw, 20px);
       color: var(--white);
       letter-spacing: 3px;
       text-align: right;
@@ -306,7 +315,9 @@
       bottom: 0;
       left: 35%;
       transform: translateX(-50%);
-      width: clamp(370px, 48vw, 630px);
+      width: clamp(320px, 44vw, 630px);
+      /* never taller than the space under the hero text */
+      max-height: 62vh;
       z-index: 2;
       opacity: 0;
       animation: fadeUp 1s ease 2s forwards;
@@ -314,6 +325,9 @@
 
     .hero-character {
       width: 100%;
+      max-height: 62vh;
+      object-fit: contain;
+      object-position: bottom;
       display: block;
       image-rendering: pixelated;
       transition: transform 0.3s ease;
@@ -327,7 +341,7 @@
     #about {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 80px;
+      gap: clamp(48px, 7vw, 80px);
       align-items: center;
     }
 
@@ -341,7 +355,7 @@
 
     .about-body {
       font-family: var(--font-body);
-      font-size: 18px;
+      font-size: clamp(16px, 1.4vw, 18px);
       color: var(--white);
       line-height: 1.9;
       opacity: 0.85;
@@ -351,7 +365,7 @@
 
     .skills-heading {
       font-family: var(--font-vt);
-      font-size: 38px;
+      font-size: clamp(30px, 3vw, 38px);
       color: var(--cyan);
       letter-spacing: 4px;
       margin-top: 32px;
@@ -366,7 +380,7 @@
 
     .tag {
       font-family: var(--font-silk);
-      font-size: 16px;
+      font-size: clamp(13px, 1.2vw, 16px);
       color: var(--cyan);
       border: 1px solid var(--cyan);
       padding: 10px 24px;
@@ -383,7 +397,7 @@
       display: inline-block;
       margin-top: 24px;
       font-family: var(--font-silk);
-      font-size: 18px;
+      font-size: clamp(15px, 1.4vw, 18px);
       color: var(--copper);
       border-bottom: 2px dashed var(--copper);
       padding-bottom: 4px;
@@ -398,7 +412,9 @@
 
     .about-image-box {
       position: relative;
-      left: 90px;
+      /* fluid offset: 90px on wide desktops, shrinks away on smaller screens
+         so it never pushes the image outside the grid */
+      left: clamp(0px, 8vw - 60px, 90px);
     }
 
     .about-image-box::before {
@@ -421,7 +437,7 @@
       display: block;
       margin-top: 16px;
       font-family: var(--font-silk);
-      font-size: 24px;
+      font-size: clamp(18px, 1.8vw, 24px);
       color: var(--copper);
       border: 1px solid var(--copper);
       padding: 14px 0;
@@ -453,7 +469,7 @@
 
     .cv-hint-text {
       font-family: var(--font-vt);
-      font-size: 26px;
+      font-size: clamp(20px, 2vw, 26px);
       color: var(--copper);
       opacity: 0.6;
       letter-spacing: 2px;
@@ -486,10 +502,10 @@
 
     .section-sub {
       font-family: var(--font-vt);
-      font-size: 32px;
+      font-size: clamp(22px, 2.6vw, 32px);
       color: var(--white);
       opacity: 0.6;
-      margin-bottom: 60px;
+      margin-bottom: clamp(32px, 5vw, 60px);
       letter-spacing: 2px;
     }
 
@@ -498,9 +514,11 @@
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
-      gap: 400px;
-      margin-top: 80px;
-      margin-bottom: 100px;
+      /* fluid gap: 400px only on very wide screens, shrinks smoothly on
+         laptops/tablets so the buttons never wrap awkwardly */
+      gap: clamp(40px, 22vw - 160px, 400px);
+      margin-top: clamp(40px, 6vw, 80px);
+      margin-bottom: clamp(40px, 7vw, 100px);
       width: 100%;
     }
 
@@ -510,12 +528,12 @@
       align-items: center;
       justify-content: center;
       font-family: var(--font-silk);
-      font-size: 40px;
+      font-size: clamp(24px, 3vw, 40px);
       color: var(--cyan);
       border: 3px solid var(--cyan);
-      padding: 20px 72px;
-      min-width: 340px;
-      letter-spacing: 8px;
+      padding: clamp(16px, 1.8vw, 20px) clamp(32px, 5.5vw, 72px);
+      min-width: clamp(240px, 26vw, 340px);
+      letter-spacing: clamp(4px, 0.6vw, 8px);
       transition: background 0.2s, color 0.2s, transform 0.2s;
       cursor: pointer;
       text-align: center;
@@ -633,11 +651,6 @@
       opacity: 1;
     }
 
-    .xr-btn:hover::before,
-    .xr-btn:hover::after {
-      opacity: 1;
-    }
-
     /* ═══ CONTACT ═══ */
     #contact {
       text-align: center;
@@ -645,13 +658,16 @@
 
     .contact-email {
       font-family: var(--font-vt);
-      font-size: 64px;
+      /* fluid at every width — no more overflow on tablets */
+      font-size: clamp(24px, 5vw, 64px);
       color: var(--cyan);
-      letter-spacing: 4px;
+      letter-spacing: clamp(1px, 0.35vw, 4px);
       display: inline-block;
       border-bottom: 2px solid var(--cyan);
       padding-bottom: 4px;
       margin: 32px 0 48px;
+      max-width: 100%;
+      overflow-wrap: break-word;
       transition: color 0.2s;
     }
 
@@ -663,17 +679,17 @@
     .social-links {
       display: flex;
       justify-content: center;
-      gap: 32px;
+      gap: clamp(16px, 2.5vw, 32px);
       flex-wrap: wrap;
       margin-top: 48px;
     }
 
     .social-btn {
       font-family: var(--font-silk);
-      font-size: 22px;
+      font-size: clamp(16px, 1.7vw, 22px);
       color: var(--white);
       border: 1px solid var(--dim);
-      padding: 26px 56px;
+      padding: clamp(16px, 2vw, 26px) clamp(32px, 4.5vw, 56px);
       letter-spacing: 3px;
       transition: border-color 0.2s, color 0.2s;
       cursor: pointer;
@@ -687,7 +703,7 @@
     /* ═══ FOOTER ═══ */
     footer {
       text-align: center;
-      padding: 32px;
+      padding: 32px 20px;
       font-family: var(--font-silk);
       font-size: 14px;
       color: var(--dim);
@@ -723,6 +739,7 @@
 
       .hero-title {
         font-size: clamp(86px, 6.5vw, 128px);
+        letter-spacing: 0.38em;
       }
 
       .hero-location {
@@ -762,83 +779,82 @@
 
     /* ═══ LAPTOP / 14-INCH (≤1280px) ═══ */
     @media (max-width: 1280px) {
-      nav {
-        padding: 20px 40px;
-      }
-
-      .nav-logo {
-        height: 48px;
-      }
-
-      .nav-links {
-        font-size: 18px;
-        letter-spacing: 2px;
-      }
-
-      section {
-        padding: 80px 32px;
-      }
-
       .hero-inner {
-        padding: 0 30px 0 60px;
+        padding: 0 40px 0 48px;
       }
 
       .hero-title {
-        font-size: clamp(28px, 4.5vw, 58px);
-        letter-spacing: 0.28em;
-      }
-
-      .hero-subtitle {
-        font-size: 24px;
-        top: -58px;
-      }
-
-      .hero-location {
-        font-size: 17px;
-        letter-spacing: 2px;
+        font-size: clamp(32px, 5.5vw, 68px);
       }
 
       .hero-character-wrap {
-        width: clamp(260px, 30vw, 400px);
-        bottom: -40px;
-      }
-
-      #about {
-        gap: 48px;
-      }
-
-      .about-image-box {
-        left: 40px;
-      }
-
-      .works-categories {
-        gap: 80px;
-        margin-top: 60px;
-        margin-bottom: 60px;
-      }
-
-      .category-btn {
-        font-size: 32px;
-        padding: 18px 48px;
-        min-width: 280px;
-      }
-
-      .contact-email {
-        font-size: 48px;
-      }
-
-      .social-btn {
-        padding: 20px 40px;
-        font-size: 18px;
+        width: clamp(340px, 42vw, 560px);
       }
     }
 
-    /* ═══ RESPONSIVE ═══ */
+    /* ═══ TABLET (≤1024px) — new breakpoint ═══ */
+    @media (max-width: 1024px) {
+      .nav-links {
+        letter-spacing: 2px;
+      }
+
+      .hero-subtitle {
+        padding-left: 20%;
+        top: -64px;
+      }
+
+      .hero-inner {
+        top: 30%;
+      }
+
+      .hero-character-wrap {
+        left: 38%;
+        width: clamp(320px, 46vw, 480px);
+      }
+
+      /* about goes single-column earlier so the text never gets cramped */
+      #about {
+        grid-template-columns: 1fr;
+        gap: 56px;
+      }
+
+      .about-image-box {
+        left: 0;
+        max-width: 420px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    /* ═══ SHORT / LANDSCAPE VIEWPORTS ═══ */
+    /* Phones held sideways or very short laptop windows: keep the
+       hero text and character from colliding */
+    @media (max-height: 620px) and (min-width: 640px) {
+      .hero-inner {
+        top: 26%;
+      }
+
+      .hero-subtitle {
+        top: -52px;
+        font-size: 20px;
+      }
+
+      .hero-character-wrap {
+        width: clamp(220px, 30vw, 360px);
+        max-height: 48vh;
+      }
+
+      .hero-character {
+        max-height: 48vh;
+      }
+    }
+
+    /* ═══ MOBILE (≤768px) ═══ */
     @media (max-width: 768px) {
       nav {
-        padding: 16px 12px;
+        padding: 14px 12px;
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
       }
 
       .nav-logo {
@@ -854,7 +870,7 @@
 
       .hero-inner {
         padding: 0 20px;
-        top: 35%;
+        top: 34%;
         text-align: center;
       }
 
@@ -876,6 +892,8 @@
         text-align: center;
         font-size: clamp(20px, 5.5vw, 32px);
         letter-spacing: 0.1em;
+        white-space: normal;
+        line-height: 1.4;
       }
 
       .hero-title span {
@@ -888,9 +906,19 @@
         margin-top: 8px;
       }
 
+      /* true centering: the fadeUp animation overwrites translateX(-50%),
+         so we center with auto margins instead of transform */
       .hero-character-wrap {
-        left: 12%;
-        width: clamp(350px, 95vw, 500px);
+        left: 0;
+        right: 0;
+        margin-inline: auto;
+        transform: none;
+        width: clamp(280px, 82vw, 460px);
+        max-height: 52vh;
+      }
+
+      .hero-character {
+        max-height: 52vh;
       }
 
       #about {
@@ -914,10 +942,6 @@
         margin: 0 auto;
       }
 
-      section {
-        padding: 72px 24px;
-      }
-
       .works-categories {
         gap: 40px;
         margin-top: 40px;
@@ -926,7 +950,7 @@
       }
 
       .category-btn {
-        min-width: 260px;
+        min-width: min(260px, 100%);
         font-size: 24px;
         padding: 16px 32px;
       }
@@ -948,6 +972,71 @@
         font-size: 16px;
         width: 100%;
         max-width: 260px;
+      }
+    }
+
+    /* ═══ SMALL PHONES (≤400px) ═══ */
+    @media (max-width: 400px) {
+      .nav-links {
+        font-size: 12px;
+        letter-spacing: 1px;
+      }
+
+      .hero-title {
+        font-size: clamp(18px, 6vw, 24px);
+      }
+
+      .hero-character-wrap {
+        width: 92vw;
+        left: 0;
+        right: 0;
+        margin-inline: auto;
+      }
+
+      section {
+        padding: 64px 16px;
+      }
+
+      .tag {
+        padding: 8px 16px;
+      }
+
+      .category-btn {
+        min-width: 100%;
+        letter-spacing: 4px;
+      }
+    }
+
+    /* ═══ REDUCED MOTION ═══ */
+    @media (prefers-reduced-motion: reduce) {
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      /* elements that animate in from opacity:0 must still be visible */
+      .hero-title,
+      .hero-subtitle,
+      .hero-location,
+      .hero-character-wrap {
+        opacity: 1 !important;
+      }
+
+      .hero-subtitle {
+        width: 100%;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
       }
     }
   </style>
@@ -1061,7 +1150,9 @@
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     const COLORS = ['#00E5C8', '#A259FF', '#C8A97A', '#00E5C8', '#00E5C8'];
-    const PARTICLE_COUNT = 80;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // fewer particles on small screens = better battery / performance
+    const PARTICLE_COUNT = window.innerWidth < 768 ? 40 : 80;
     let particles = [];
 
     function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -1087,6 +1178,16 @@
 
     for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(createParticle());
 
+    function drawStatic() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+      });
+      ctx.globalAlpha = 1;
+    }
+
     function tick() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((p, i) => {
@@ -1103,7 +1204,9 @@
       ctx.globalAlpha = 1;
       requestAnimationFrame(tick);
     }
-    tick();
+
+    // respect reduced-motion: draw the particles once, but don't animate them
+    if (prefersReducedMotion) { drawStatic(); } else { tick(); }
   </script>
 
   <script>
