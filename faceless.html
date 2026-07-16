@@ -682,6 +682,48 @@
             transform: translateY(0);
         }
 
+        /* ═══ LAPTOP / 14-INCH (≤1280px) ═══ */
+        @media (max-width: 1280px) {
+            nav {
+                padding: 20px 40px;
+            }
+
+            .nav-logo {
+                height: 48px;
+            }
+
+            .nav-links {
+                font-size: 18px;
+                letter-spacing: 2px;
+            }
+
+            section {
+                padding: 80px 32px;
+            }
+
+            #project-details {
+                padding-top: 120px !important;
+                padding-bottom: 60px !important;
+            }
+
+            #gallery {
+                padding-top: 120px;
+            }
+
+            .gallery-sub {
+                margin-bottom: 48px;
+            }
+
+            .contact-email {
+                font-size: 48px;
+            }
+
+            .social-btn {
+                padding: 20px 40px;
+                font-size: 18px;
+            }
+        }
+
         /* ═══ RESPONSIVE ═══ */
         @media (max-width: 768px) {
             nav {
@@ -712,6 +754,8 @@
                 padding-left: 0;
                 font-size: 18px;
                 text-align: center;
+                white-space: normal;
+                overflow: visible;
                 width: 100%;
                 opacity: 0;
                 margin-top: -20px;
